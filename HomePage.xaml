@@ -10,9 +10,10 @@
 
     <Grid>
         <!-- Full Background Image -->
-        <Image Source="Data/security_icon.jpg"
-               Stretch="Fill"
-               Panel.ZIndex="0"/>
+        <Image Source="pack://application:,,,/Data/security_icon.png"
+       Stretch="Fill"
+       Panel.ZIndex="0"/>
+
 
         <!-- Dark Overlay for readability -->
         <Rectangle Fill="#AA000000" Panel.ZIndex="1"/>
@@ -31,12 +32,7 @@
                        TextAlignment="Center"/>
         </StackPanel>
 
-        <!-- Center TextBlock or Icon (optional, can remove if not needed) -->
-        <!--<Image Source="assets/images/security_icon.png"
-               Width="130" Height="130"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Panel.ZIndex="2"/>-->
+        
 
         <!-- Description Text -->
         <TextBlock TextWrapping="Wrap" FontSize="16" Foreground="White"

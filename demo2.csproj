@@ -12,6 +12,7 @@
 		<None Remove="Data\Cyber Voice.m4a" />
 		<None Remove="Data\Cyber_Security-Info.txt" />
 		<None Remove="Data\PROGcHATIMAGE.png" />
+		<None Remove="Data\security_icon.png" />
 		<None Remove="Data\user-icon.png" />
 	</ItemGroup>
 
@@ -25,6 +26,9 @@
 		<Content Include="Data\PROGcHATIMAGE.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+		<Resource Include="Data\security_icon.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Content Include="Data\user-icon.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
