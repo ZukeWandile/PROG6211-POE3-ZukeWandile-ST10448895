@@ -1,0 +1,102 @@
+Credentials= Use strong, alphanumeric passwords with a mix of symbols — think of it like making a secret code only you understand.
+Credentials= Try not to reuse the same password across different sites — if one gets hacked, the others stay safe.
+Credentials= A password manager can save you a ton of stress — it creates and stores tough passwords so you don’t have to remember them all.
+Credentials= Update your passwords from time to time, and skip anything that’s too simple or personal — like your dog’s name or '123456'.
+Credentials_Simple= Use passwords that are long and hard to guess — and don’t use the same one everywhere. A password manager can help with that!
+Credentials_INTEREST= Did you know over 80% of data breaches involve weak or reused passwords? Good passwords really do protect you!
+Credentials_WORRIED= Don’t stress — strong passwords sound complicated, but a password manager makes it super easy. You’ve got this.
+Credentials_CURIOUS= Passwords are like digital keys — and tools like password managers are like having a keychain that remembers them all for you!
+Credentials_FRUSTRATED= Passwords can be annoying, we get it. But with a password manager, you don’t have to remember every single one — it’s a lifesaver!
+
+MFA= Add an extra layer of protection with MFA — it’s like needing both a key and a code to unlock your accounts.
+MFA= Turn on MFA for all your important accounts — email, banking, cloud storage — it adds serious security.
+MFA= Whenever you can, use an app or hardware key for MFA instead of just a text message — it’s safer and more reliable.
+MFA_Simple= MFA means using more than just a password — like a code sent to your phone or your fingerprint. It’s one more way to stay safe.
+MFA_INTEREST= Just adding MFA can stop over 99% of automated cyberattacks. One tiny step makes a huge difference!
+MFA_WORRIED= MFA might sound high-tech, but it’s really just an extra step to keep your stuff secure. Once it’s set up, it’s easy to use!
+MFA_CURIOUS= Think of MFA like adding a second lock to your front door — even if someone has the key (your password), they still can’t get in without the second one!
+MFA_FRUSTRATED= We know MFA can be a bit of a hassle, but it’s worth it. Most apps make it quick, and it keeps hackers out.
+
+Phishing= Don’t click on weird links or open surprise attachments — they’re often traps set by scammers.
+Phishing= Always double-check who’s emailing you — if someone’s asking for personal info, make sure it’s really them.
+Phishing= Hover your mouse over any link before clicking to see where it actually leads — sneaky links are a big red flag.
+Phishing= If an email looks fishy, report it to your IT or security team — better safe than sorry!
+Phishing_Simple= Phishing is when someone tries to trick you into giving away info or clicking a bad link. Stay alert!
+Phishing_INTEREST= Nearly 90% of cyberattacks start with a phishing email — learning to spot them is your best defense.
+Phishing_WORRIED= Worried about falling for a phishing scam? That’s a good thing — being cautious already puts you ahead.
+Phishing_CURIOUS= Ever wonder why phishing works? It plays on trust and urgency — but knowing the signs keeps you protected.
+Phishing_FRUSTRATED= Getting sketchy emails all the time? You’re not alone. With a little practice, spotting scams becomes second nature.
+
+Patching= Keeping your software updated is one of the easiest ways to stay safe online — updates fix known bugs that hackers love to exploit.
+Patching= Turn on automatic updates for your system and apps — it’s a set-it-and-forget-it way to stay protected.
+Patching= Keep a list of the software you use so you can spot anything that’s missing updates or falling behind.
+Patching_Simple= Updating your apps and devices keeps hackers out — just let automatic updates do their thing.
+Patching_INTEREST= Big cyberattacks like WannaCry happened just because people skipped updates — a tiny patch could’ve stopped it all.
+Patching_WORRIED= No worries — patching is just updating. Set your devices to auto-update and you’re already doing great.
+Patching_CURIOUS= Wondering what patching is? Think of it like plugging holes in a boat — updates keep the bad stuff from getting in.
+Patching_FRUSTRATED= Tired of those update pop-ups? They’re annoying, but skipping them is risky. Think of them like brushing your teeth — a small habit with big rewards.
+
+Encryption= Set up your Wi-Fi with WPA3 and change default passwords — it helps keep unwanted guests out.
+Encryption= Use full-disk encryption on your devices so even if they’re lost or stolen, your data stays safe.
+Encryption= If you're uploading important stuff to the cloud, encrypt it first so only you can read it.
+Encryption= Avoid using old, weak encryption methods — stick to trusted, modern ones to protect your data.
+Encryption_Simple= Encryption scrambles your data so no one can read it unless they have your password.
+Encryption_INTEREST= Even if hackers steal your files, encryption turns them into gibberish — like grabbing a safe without the key.
+Encryption_WORRIED= Encryption might sound complex, but don’t worry — it’s just a smart way to keep your info locked up and safe.
+Encryption_CURIOUS= Curious about encryption? It’s like sealing your data in a vault — only someone with the right code can open it.
+Encryption_FRUSTRATED= Encryption confusing you? You’re not alone. It’s basically just locking up your files so nobody else can peek.
+
+PublicWiFi= Always use a VPN when you're on public Wi-Fi — it keeps your online activity private and secure.
+PublicWiFi= Try not to check sensitive info like bank accounts while on public Wi-Fi — it’s just not worth the risk.
+PublicWiFi= Turn off automatic connections to open networks — better to choose your Wi-Fi than let your device do it.
+PublicWiFi_Simple= Public Wi-Fi isn’t always safe — a VPN helps hide what you’re doing.
+PublicWiFi_INTEREST= Some hackers set up fake Wi-Fi with names like “Free Airport Wi-Fi” — sneaky, right?
+PublicWiFi_WORRIED= Worried about using public Wi-Fi? You’re not alone — just use a VPN or save the important stuff for later.
+PublicWiFi_CURIOUS= Ever wondered why public Wi-Fi is risky? It’s because hackers can watch your traffic — but a VPN scrambles it all.
+PublicWiFi_FRUSTRATED= Yeah, public Wi-Fi can be a pain. If it feels sketchy, save the important stuff for when you’re on a secure connection.
+
+Backups= Make regular backups of your data so you’re ready in case something crashes or gets attacked by ransomware.
+Backups= Store your backups in more than one place — maybe an external drive and the cloud.
+Backups= Test your backups every now and then — it’s no good having a backup that won’t work when you need it.
+Backups_Simple= Backups are like safety nets — they help you recover files if something goes wrong.
+Backups_INTEREST= Some cyberattacks go after your backups first — having cloud or offline copies can be a lifesaver.
+Backups_WORRIED= Backups might sound like a hassle, but they’re your plan B if things go wrong — and automatic ones make it super easy.
+Backups_CURIOUS= Wondering about backups? They’re just copies of your stuff so if something goes wrong, you’ve got a way to get it all back.
+Backups_FRUSTRATED= Losing files is the worst — backups save you from that stress. Set it up once and breathe easy.
+
+Footprint= Try not to overshare on social media — posting personal details like your birthday, address, or daily routines can make it easier for cybercriminals to guess passwords or impersonate you.
+Footprint= It’s a good habit to limit location sharing and review your app permissions regularly — some apps access more than they need!
+Footprint= Use privacy settings on your accounts to control who can see your posts, photos, and profile details — it’s like drawing curtains on your digital house.
+Footprint_Simple= Be mindful about what you post online. The less personal info you share, the safer you stay — think before you share!
+Footprint_INTEREST= Did you know attackers often piece together social media details to guess passwords or answer security questions? What you post can be more revealing than you think.
+Footprint_WORRIED= If you're worried about your digital footprint, that's a great start! Begin by checking your privacy settings and avoid sharing things like your full name or home address publicly.
+Footprint_CURIOUS= Your digital footprint is the trail of info you leave behind online. By managing what you share and who sees it, you’re taking a big step toward better online privacy.
+Footprint_FRUSTRATED= Managing your digital footprint can feel overwhelming, but start with small wins — turn off location sharing and lock down who sees your posts. It gets easier!
+
+SocialEngineering= Stay alert for tricks like someone pretending to be IT support or a delivery person — always question unexpected requests for access or information.
+SocialEngineering= If someone asks for sensitive info like passwords or financial data, take a moment to verify their identity. A quick check can prevent a huge problem.
+SocialEngineering= Regular security training helps everyone spot the signs of social engineering — it's one of the best ways to build a security-savvy team.
+SocialEngineering_Simple= Social engineering is when someone tricks you into giving away personal info — like pretending to be your boss or tech support.
+SocialEngineering_INTEREST= Social engineers often rely on psychology — they use urgency, fear, or trust to get people to give up sensitive info. Just being aware makes you harder to trick.
+SocialEngineering_WORRIED= Nervous about being fooled by a scammer? That’s totally normal. Just slow down, ask questions, and confirm identities before sharing info.
+SocialEngineering_CURIOUS= Social engineering is like hacking the human mind — scammers trick people into helping them. Learning about their tactics makes you way harder to fool.
+SocialEngineering_FRUSTRATED= Scam calls, fake emails — it’s a lot. But each time you spot one, you get better at it. Practice builds your scam-spotting superpower.
+
+Literacy= Staying informed about cyber threats helps you protect yourself and others. Following trusted sources or attending webinars can make a big difference.
+Literacy= Keep an eye on cybersecurity news from organizations like CISA or NIST — they share practical tips and alerts that can help you stay one step ahead.
+Literacy= Simulations and security training can turn boring concepts into useful knowledge. Think of it like a fire drill — you learn what to do before there's a real problem.
+Literacy_Simple= Learn the basics of how to stay safe online — things like strong passwords, avoiding scams, and updating your software.
+Literacy_INTEREST= Knowing even a little cybersecurity goes a long way. People who stay informed are way more likely to avoid falling for scams or malware.
+Literacy_WORRIED= Feeling behind on cyber know-how? You’re not alone. Learning even a few simple things — like using MFA or spotting fake links — can really boost your safety.
+Literacy_CURIOUS= Cyber literacy is just knowing how to use tech safely. From recognizing phishing to securing accounts, it’s all about protecting yourself online.
+Literacy_FRUSTRATED= Cyber terms can be confusing, but don’t let that stop you. Everyone starts somewhere — take your time and learn at your pace. You’ve got this!
+
+PasswordSafety = Use strong passwords—combine uppercase, lowercase, numbers, and symbols to make them harder to guess.
+PasswordSafety = Never reuse passwords across different accounts—if one gets compromised, others could be at risk too.
+PasswordSafety = Enable two-factor authentication (2FA) whenever possible—it adds an extra layer of security beyond just a password.
+PasswordSafety = Avoid using personal info like your birthday or pet’s name in passwords—hackers can easily guess them.
+PasswordSafety_Simple = A strong password is your first line of defense against hackers—make it tough to crack!
+PasswordSafety_INTEREST = Studies show that weak passwords are responsible for 81% of hacking-related breaches—stronger passwords save you from trouble.
+PasswordSafety_WORRIED = Worried about remembering complex passwords? Use a password manager to keep them secure and easily accessible.
+PasswordSafety_CURIOUS = Ever wonder how hackers crack passwords? They use automated tools to guess millions of combinations—make yours impossible to guess.
+PasswordSafety_FRUSTRATED = Sick of forgetting passwords? Try using passphrases—a sentence-like password is stronger and easier to remember.

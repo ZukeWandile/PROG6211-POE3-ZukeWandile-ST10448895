@@ -1,0 +1,41 @@
+﻿<Window x:Class="demo2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:demo2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="MidnightBlue" Padding="10">
+            <StackPanel>
+                <TextBlock Text="MENU" Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                <ListBox x:Name="MenuListBox"
+         Background="Transparent"
+         BorderThickness="0"
+         Foreground="White"
+         SelectionChanged="MenuListBox_SelectionChanged">
+                    <ListBoxItem Content="Home" Padding="10"/>
+                    <ListBoxItem Content="Chat Bot" Padding="10"/>
+                    <ListBoxItem Content="Quiz" Padding="10"/>
+                    <ListBoxItem Content="Tasks" Padding="10"/>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               Background="LightGray"
+               Margin="10"
+               NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>
+
+
