@@ -52,6 +52,8 @@ namespace demo2
                 QuizPanel.Visibility = Visibility.Collapsed;
                 FinalScoreText.Text = $"Quiz Finished!\nYour Score: {score}/{questions.Count}";
                 ResultPanel.Visibility = Visibility.Visible;
+
+                ChatHistory.AddActivity($"Completed cybersecurity quiz with score {score}/{questions.Count}");
                 return;
             }
 

@@ -5,7 +5,8 @@ namespace demo2
 {
     public static class ChatHistory
     {
-        public static ObservableCollection<ChatLog> Messages { get; } = new ObservableCollection<ChatLog>();
+        public static ObservableCollection<ChatLog> Messages { get; } = new();
+        public static ObservableCollection<string> ActivityEntries { get; } = new();
 
         public static void Add(string sender, string message)
         {
@@ -13,8 +14,12 @@ namespace demo2
             {
                 Sender = sender,
                 Message = message
-                // Timestamp is automatically handled by ChatLogEntry
             });
+        }
+
+        public static void AddActivity(string activity)
+        {
+            ActivityEntries.Add($"[{DateTime.Now:HH:mm}] {activity}");
         }
     }
 }

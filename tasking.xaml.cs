@@ -19,6 +19,8 @@ namespace demo2
             if (int.TryParse(TaskDaysBox.Text, out int days))
             {
                 TASKS.AddTask(TaskNameBox.Text, TaskDescBox.Text, days);
+                ChatHistory.AddActivity($"Task added: '{TaskNameBox.Text}' (due in {days} days)");
+
                 TaskNameBox.Clear();
                 TaskDescBox.Clear();
                 TaskDaysBox.Clear();
@@ -34,7 +36,7 @@ namespace demo2
             if (TaskListBox.SelectedItem is TaskItem task)
             {
                 TASKS.MarkAsDone(task);
-                // No need to refresh the list manually
+                ChatHistory.AddActivity($"Task marked as done: '{task.Name}'");
             }
         }
 
@@ -43,7 +45,9 @@ namespace demo2
             if (TaskListBox.SelectedItem is TaskItem task)
             {
                 TASKS.DeleteTask(task);
+                ChatHistory.AddActivity($"Task deleted: '{task.Name}'");
             }
         }
+
     }
 }

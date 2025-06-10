@@ -29,37 +29,54 @@ namespace demo2
         private void SendMessage_Click(object sender, RoutedEventArgs e)
         {
             string userMessage = UserInput.Text.Trim();
-            if (string.IsNullOrEmpty(userMessage)) return;
+            if (string.IsNullOrWhiteSpace(userMessage)) return;
 
             ChatHistory.Add("User", userMessage);
             AddMessageWithIcon(userMessage, Colors.Black, "#EEE", HorizontalAlignment.Right, userImagePath);
 
-            if (userMessage.ToLower() == "show log" || userMessage.ToLower() == "show activity log" || userMessage.ToLower() == "what have you done for me")
+            string lowerMsg = userMessage.ToLower();
+
+            if (lowerMsg.Contains("chat log") || lowerMsg.Contains("chat activity"))
             {
-                string logIntro = "Here’s your activity log:";
-                ChatHistory.Add("Bot", logIntro);
-                AddMessageWithIcon(logIntro, Colors.White, "#333", HorizontalAlignment.Left, botImagePath);
-
-                var total = ChatHistory.Messages.Count;
-                int logCount = Math.Min(Math.Max(3, total), 10); // Ensure at least 3, max 10
-
-                foreach (var entry in ChatHistory.Messages.Skip(Math.Max(0, total - logCount)))
-                {
-                    string icon = entry.Sender == "User" ? userImagePath : botImagePath;
-                    string logLine = $"[{entry.Timestamp}] {entry.Sender}: {entry.Message}";
-                    AddMessageWithIcon(logLine, Colors.LightGray, "#222", HorizontalAlignment.Left, icon);
-                }
-
-
-                UserInput.Text = string.Empty;
-                return;
+                DisplayChatLog();
+            }
+            else if (lowerMsg.Contains("activity log") || lowerMsg.Contains("show activity"))
+            {
+                DisplayActivityLog();
+            }
+            else
+            {
+                string botResponse = CyberDictionary.GetResponse(userMessage);
+                ChatHistory.Add("Bot", botResponse);
+                AddMessageWithIcon(botResponse, Colors.White, "#333", HorizontalAlignment.Left, botImagePath);
             }
 
-            string botResponse = CyberDictionary.GetResponse(userMessage);
-            ChatHistory.Add("Bot", botResponse);
-            AddMessageWithIcon(botResponse, Colors.White, "#333", HorizontalAlignment.Left, botImagePath);
-
             UserInput.Text = string.Empty;
+        }
+
+        private void DisplayChatLog()
+        {
+            string intro = "Here's your recent chat log:";
+            ChatHistory.Add("Bot", intro);
+            AddMessageWithIcon(intro, Colors.White, "#333", HorizontalAlignment.Left, botImagePath);
+
+            foreach (var log in ChatHistory.Messages)
+            {
+                string icon = log.Sender == "User" ? userImagePath : botImagePath;
+                AddMessageWithIcon($"{log.Sender}: {log.Message}", Colors.LightGray, "#222", HorizontalAlignment.Left, icon);
+            }
+        }
+
+        private void DisplayActivityLog()
+        {
+            string intro = "Here's your activity log:";
+            ChatHistory.Add("Bot", intro);
+            AddMessageWithIcon(intro, Colors.White, "#333", HorizontalAlignment.Left, botImagePath);
+
+            foreach (var entry in ChatHistory.ActivityEntries)
+            {
+                AddMessageWithIcon(entry, Colors.LightGray, "#222", HorizontalAlignment.Left, botImagePath);
+            }
         }
 
         private void RestorePreviousChat()
@@ -90,43 +107,41 @@ $$/ $$/       $$ $$/$$ $$ |$$    $$ |$$ |$$ |      $$ |  $$ |$$ | $$ | $$ |$$   
 $$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$$$$/       $$/ $$/ 
 ";
 
-            TextBlock asciiText = new TextBlock
+            ChatMessages.Children.Add(new TextBlock
             {
                 Text = asciiArt,
                 FontFamily = new FontFamily("Consolas"),
                 FontSize = 10,
-                Foreground = new SolidColorBrush(Colors.HotPink),
-                Background = new SolidColorBrush(Colors.Black),
+                Foreground = Brushes.HotPink,
+                Background = Brushes.Black,
                 Padding = new Thickness(10),
                 Margin = new Thickness(5),
                 TextWrapping = TextWrapping.NoWrap,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 MaxWidth = 800
-            };
-
-            ChatMessages.Children.Add(asciiText);
+            });
         }
 
         private void PlayIntroAudio()
         {
             try
             {
-                string fullAudioPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, audioPath);
-                if (File.Exists(fullAudioPath))
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, audioPath);
+                if (File.Exists(fullPath))
                 {
-                    audioFile = new AudioFileReader(fullAudioPath);
+                    audioFile = new AudioFileReader(fullPath);
                     outputDevice = new WaveOutEvent();
                     outputDevice.Init(audioFile);
                     outputDevice.Play();
                 }
                 else
                 {
-                    MessageBox.Show("Intro audio file not found: " + fullAudioPath);
+                    MessageBox.Show("Intro audio file not found: " + fullPath);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error playing intro audio.");
+                MessageBox.Show("Error playing intro audio: " + ex.Message);
             }
         }
 
@@ -139,24 +154,22 @@ $$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$
                 Margin = new Thickness(5)
             };
 
-            // Only try to combine path if imagePath is provided
             if (!string.IsNullOrWhiteSpace(imagePath))
             {
                 string fullImagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imagePath);
                 if (File.Exists(fullImagePath))
                 {
-                    Image avatar = new Image
+                    messagePanel.Children.Add(new Image
                     {
                         Source = new BitmapImage(new Uri(fullImagePath, UriKind.Absolute)),
                         Width = 40,
                         Height = 40,
                         Margin = new Thickness(5)
-                    };
-                    messagePanel.Children.Add(avatar);
+                    });
                 }
             }
 
-            TextBlock messageText = new TextBlock
+            messagePanel.Children.Add(new TextBlock
             {
                 Text = text,
                 Foreground = new SolidColorBrush(textColor),
@@ -166,9 +179,8 @@ $$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$
                 Margin = new Thickness(5),
                 TextWrapping = TextWrapping.Wrap,
                 MaxWidth = 600
-            };
+            });
 
-            messagePanel.Children.Add(messageText);
             ChatMessages.Children.Add(messagePanel);
         }
 
