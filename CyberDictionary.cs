@@ -19,6 +19,21 @@ namespace demo2
             LoadFromFile("Data/Cyber_Security-Info.txt");
         }
 
+        public static bool TryGet(string key, out string value)
+        {
+            value = null;
+            key = key.ToLower();
+
+            if (Responses.TryGetValue(key, out var list) && list.Count > 0)
+            {
+                value = list[0]; // you can change this to random if desired
+                return true;
+            }
+
+            return false;
+        }
+
+
         public static void LoadFromFile(string path)
         {
             Responses.Clear();
@@ -39,34 +54,54 @@ namespace demo2
             }
         }
 
+        public static List<string> GetKnownTopics()
+        {
+            return Responses.Keys
+                .Where(k => k.Contains("_"))
+                .Select(k => k.Split('_')[0])
+                .Distinct()
+                .ToList();
+        }
+
+
         public static string GetResponse(string input)
         {
-            input = input.ToLower();
+            input = input.ToLower().Trim();
 
             string[] emotions = { "worried", "curious", "frustrated" };
             string[] simplifiedTriggers = { "explain", "simple", "in simple terms" };
             string[] interestTriggers = { "fun", "fact", "interesting" };
 
+            // Task creation flow
             if (input.Contains("add task"))
             {
-                taskStage = "awaiting_name";
+                taskStage = "T-name";
                 return "Great! What is the name of your task?";
             }
-            if (taskStage == "awaiting_name")
+
+            if (taskStage == "T-name")
             {
                 pendingTaskName = input;
-                taskStage = "awaiting_desc";
+                taskStage = "T_desc";
                 return "Thanks! Now please give me a short description.";
             }
-            if (taskStage == "awaiting_desc")
+
+            if (taskStage == "T_desc")
             {
                 pendingDesc = input;
-                taskStage = "awaiting_days";
-                return "And how many days from now should I remind you?";
+                taskStage = "T_days";
+                return "And how many days from now should I remind you? (or type 'no' to skip)";
             }
-            if (taskStage == "awaiting_days")
+
+            if (taskStage == "T_days")
             {
-                if (int.TryParse(input, out pendingDays))
+                if (input == "no" || input == "none" || input == "skip")
+                {
+                    TASKS.AddTask(pendingTaskName, pendingDesc, null);
+                    taskStage = null;
+                    return "Got it! Task added without a reminder.";
+                }
+                else if (int.TryParse(input, out pendingDays))
                 {
                     TASKS.AddTask(pendingTaskName, pendingDesc, pendingDays);
                     taskStage = null;
@@ -74,11 +109,57 @@ namespace demo2
                 }
                 else
                 {
-                    return "Please enter a valid number of days.";
+                    return "Please enter a valid number of days, or type 'no' to skip.";
                 }
             }
 
-            // Check for structured intents first
+            // Set reminder command
+            if (input.StartsWith("set reminder"))
+            {
+                string[] parts = input.Split("set reminder");
+                if (parts.Length < 2 || string.IsNullOrWhiteSpace(parts[1]))
+                {
+                    return "Please specify the task name to set a reminder for.";
+                }
+
+                string taskName = parts[1].Trim();
+
+                if (TASKS.TrySetReminderPrompt(taskName))
+                {
+                    taskStage = "reminder" + taskName;
+                    return $"How many days from now should I remind you for \"{taskName}\"?";
+                }
+                else
+                {
+                    return $"I couldn't find a task named \"{taskName}\". Please check the name and try again.";
+                }
+            }
+
+            // waiting for reminder days
+            if (taskStage != null && taskStage.StartsWith("reminder"))
+            {
+                string taskName = taskStage.Split(':')[1];
+
+                if (int.TryParse(input, out int days))
+                {
+                    if (TASKS.TrySetReminder(taskName, days))
+                    {
+                        taskStage = null;
+                        return $"Reminder set for \"{taskName}\" in {days} day(s).";
+                    }
+                    else
+                    {
+                        taskStage = null;
+                        return $"Failed to set reminder for \"{taskName}\".";
+                    }
+                }
+                else
+                {
+                    return "Please enter a valid number of days for the reminder.";
+                }
+            }
+
+            // Structured responses
             foreach (var key in Responses.Keys)
             {
                 if (!key.Contains("_")) continue;
@@ -101,7 +182,7 @@ namespace demo2
                 }
             }
 
-            // General fallback match
+            // General fallback
             foreach (var key in Responses.Keys)
             {
                 if (!key.Contains("_") && input.Contains(key))

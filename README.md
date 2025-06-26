@@ -35,7 +35,6 @@ A modern WPF desktop application designed to help users learn, stay secure, and 
 - **.NET 6+ / .NET Core**
 - **WPF (Windows Presentation Foundation)**
 - **C#**
-- **MVVM Pattern**
 - **XAML for UI Design**
 
 ---

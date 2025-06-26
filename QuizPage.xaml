@@ -4,26 +4,72 @@
       Title="Cyber Security Quiz">
 
     <Grid Background="Black">
-        <StackPanel x:Name="MainPanel" Margin="20" VerticalAlignment="Center">
+        <StackPanel x:Name="MainPanel" Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+
             <!-- Welcome Screen -->
             <StackPanel x:Name="WelcomePanel" Visibility="Visible">
                 <TextBlock Text="Welcome to the Cyber Security Quiz!"
-                           FontSize="24" Foreground="White" TextAlignment="Center"/>
-                <Button Content="Start Quiz" Margin="10" Padding="10" Click="StartQuiz_Click"/>
+                           FontSize="24"
+                           Foreground="White"
+                           TextAlignment="Center"
+                           Margin="0,0,0,20"/>
+                <Button Content="Start Quiz"
+                        Margin="10"
+                        Padding="10"
+                        FontSize="16"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        Click="StartQuiz_Click"/>
             </StackPanel>
 
             <!-- Quiz Screen -->
             <StackPanel x:Name="QuizPanel" Visibility="Collapsed">
-                <TextBlock x:Name="QuestionText" FontSize="20" Foreground="White" TextWrapping="Wrap" Margin="0,10"/>
-                <UniformGrid Columns="1" Rows="4" Margin="0,10" x:Name="OptionsGrid"/>
-                <TextBlock x:Name="ScoreText" Foreground="LightGreen" FontSize="16" Margin="0,10"/>
+                <TextBlock x:Name="QuestionText"
+                           FontSize="20"
+                           Foreground="White"
+                           TextWrapping="Wrap"
+                           Margin="0,10"
+                           TextAlignment="Center"/>
+
+                <UniformGrid Columns="1"
+                             Rows="4"
+                             Margin="0,10"
+                             x:Name="OptionsGrid"/>
+
+                <!-- ✅ Feedback Text -->
+                <TextBlock x:Name="FeedbackText"
+                           FontSize="16"
+                           Foreground="Yellow"
+                           Background="#222"
+                           Margin="0,10"
+                           Padding="10"
+                           TextWrapping="Wrap"
+                           Visibility="Collapsed"
+                           TextAlignment="Center"/>
+
+                <TextBlock x:Name="ScoreText"
+                           Foreground="LightGreen"
+                           FontSize="16"
+                           Margin="0,10"
+                           TextAlignment="Center"/>
             </StackPanel>
 
             <!-- Result Screen -->
             <StackPanel x:Name="ResultPanel" Visibility="Collapsed">
-                <TextBlock x:Name="FinalScoreText" FontSize="24" Foreground="White" TextAlignment="Center"/>
-                <Button Content="Retake Quiz" Margin="10" Padding="10" Click="StartQuiz_Click"/>
+                <TextBlock x:Name="FinalScoreText"
+                           FontSize="24"
+                           Foreground="White"
+                           TextAlignment="Center"
+                           Margin="0,0,0,20"/>
+                <Button Content="Retake Quiz"
+                        Margin="10"
+                        Padding="10"
+                        FontSize="16"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        Click="StartQuiz_Click"/>
             </StackPanel>
+
         </StackPanel>
     </Grid>
 </Page>

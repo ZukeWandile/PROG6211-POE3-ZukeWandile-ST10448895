@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using demo2;
-
 
 namespace demo2
 {
@@ -11,43 +9,55 @@ namespace demo2
         public tasking()
         {
             InitializeComponent();
-            TaskListBox.ItemsSource = TASKS.TaskList; // Bind once — ObservableCollection handles the rest
+            TaskListBox.ItemsSource = TASKS.TaskList; // Bind the ListBox to the task list
         }
 
         private void AddTask_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(TaskDaysBox.Text, out int days))
-            {
-                TASKS.AddTask(TaskNameBox.Text, TaskDescBox.Text, days);
-                ChatHistory.AddActivity($"Task added: '{TaskNameBox.Text}' (due in {days} days)");
+            string name = TaskNameBox.Text.Trim();
+            string desc = TaskDescBox.Text.Trim();
+            string daysText = TaskDaysBox.Text.Trim();
 
-                TaskNameBox.Clear();
-                TaskDescBox.Clear();
-                TaskDaysBox.Clear();
-            }
-            else
+            if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Please enter a valid number of days.");
+                MessageBox.Show("Please enter a task name.");
+                return;
             }
+
+            int? days = null;
+            if (int.TryParse(daysText, out int parsedDays))
+            {
+                days = parsedDays;
+            }
+
+            TASKS.AddTask(name, desc, days);
+            ChatHistory.AddActivity($"Task '{name}' added.");
+
+            // Clear input boxes
+            TaskNameBox.Text = "";
+            TaskDescBox.Text = "";
+            TaskDaysBox.Text = "";
         }
 
         private void MarkDone_Click(object sender, RoutedEventArgs e)
         {
-            if (TaskListBox.SelectedItem is TaskItem task)
+            if (TaskListBox.SelectedItem is TaskItem selectedTask)
             {
-                TASKS.MarkAsDone(task);
-                ChatHistory.AddActivity($"Task marked as done: '{task.Name}'");
+                if (!selectedTask.IsCompleted)
+                {
+                    TASKS.MarkAsDone(selectedTask);
+                    ChatHistory.AddActivity($"Task '{selectedTask.Name}' marked as completed.");
+                }
             }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            if (TaskListBox.SelectedItem is TaskItem task)
+            if (TaskListBox.SelectedItem is TaskItem selectedTask)
             {
-                TASKS.DeleteTask(task);
-                ChatHistory.AddActivity($"Task deleted: '{task.Name}'");
+                TASKS.DeleteTask(selectedTask);
+                ChatHistory.AddActivity($"Task '{selectedTask.Name}' deleted.");
             }
         }
-
     }
 }
