@@ -11,24 +11,22 @@ namespace demo2
 {
     public partial class bot : Page
     {
-        // File paths for bot image, user image, intro audio, and interest topic storage
+        // File paths for images, audio, and interest topic
         private readonly string botImagePath = "Data/PROGcHATIMAGE.png";
         private readonly string userImagePath = "Data/user-icon.png";
         private readonly string audioPath = "Data/Cyber Voice.m4a";
         private readonly string interestTopicPath = "Data/interest_topic.txt";
 
-        // Audio player variables
+        // Audio playback
         private IWavePlayer outputDevice;
         private AudioFileReader audioFile;
 
-        // State flags
+        // Chat state flags
         private bool choosing = false;
         private bool waitingDays = false;
         private bool askReminder = false;
         private bool interestAsked = false;
         private bool waitingForInterestTopic = false;
-
-
 
         // Interest tracking
         private string interestTopic = null;
@@ -36,12 +34,10 @@ namespace demo2
         private int totalInteractions = 0;
         private bool interestingFactShown = false;
 
-
-        // Task reminder tracking
+        // Task name used for reminder
         private string taskName = null;
 
-        private int activityIndex = 0; // Keeps track of how many entries shown
-
+        private int activityIndex = 0;
 
         public bot()
         {
@@ -50,9 +46,6 @@ namespace demo2
             ShowWelcomeMessage();
             PlayIntroAudio();
             RestorePreviousChat();
-
-            // Read and validate saved interest topic
-           
 
             this.Unloaded += Bot_Unloaded;
 
@@ -65,13 +58,9 @@ namespace demo2
                     interestAsked = true;
                 }
             };
-
-
         }
 
-
-
-        // Handle user message input
+        // Main method when user sends a message
         private void SendMessage_Click(object sender, RoutedEventArgs e)
         {
             string userMessage = UserInput.Text.Trim();
@@ -82,31 +71,29 @@ namespace demo2
 
             string lowerMsg = userMessage.ToLower();
 
-            
-            // Ask for Cyber Security interest (memory-based only)
+            // Handle response to Cyber Security interest
             if (waitingForInterestTopic)
             {
                 if (lowerMsg == "yes" || lowerMsg == "y")
                 {
                     RespondBot("Awesome! What topic are you interested in?");
-                    interestTopic = "waiting"; // waiting for the topic itself
-                    waitingForInterestTopic = false;
-                    return;
+                    interestTopic = "waiting";
                 }
                 else if (lowerMsg == "no" || lowerMsg == "n")
                 {
                     RespondBot("No worries, I’m still here to help you learn about Cyber Security!");
-                    waitingForInterestTopic = false;
-                    return;
                 }
                 else
                 {
                     RespondBot("Please answer with 'yes' or 'no'.");
                     return;
                 }
+
+                waitingForInterestTopic = false;
+                return;
             }
 
-            // User is specifying interest topic
+            // User entering interest topic
             if (interestTopic == "waiting")
             {
                 var knownTopics = CyberDictionary.GetKnownTopics();
@@ -116,19 +103,16 @@ namespace demo2
                     {
                         interestTopic = topic;
                         RespondBot($"Nice! I find {interestTopic} fascinating too!");
-                        waitingForInterestTopic = false;
                         return;
                     }
                 }
 
-                interestTopic = lowerMsg.Trim();
+                interestTopic = lowerMsg;
                 RespondBot($"Got it! I’ll remember you’re into {interestTopic}.");
-                waitingForInterestTopic = false;
                 return;
             }
 
-
-            // Handle reminder setup
+            // Handling task reminder setup
             if (choosing)
             {
                 taskName = userMessage;
@@ -157,6 +141,7 @@ namespace demo2
                 return;
             }
 
+            // Ask user if they want to set reminder
             if (askReminder && taskName != null)
             {
                 if (lowerMsg == "yes" || lowerMsg == "y")
@@ -173,8 +158,8 @@ namespace demo2
                 return;
             }
 
-            // Handle set reminder command
-            if (lowerMsg == "set reminder"|| lowerMsg =="add reminder")
+            // Handle "set reminder" command
+            if (lowerMsg == "set reminder" || lowerMsg == "add reminder")
             {
                 var noReminderTasks = TASKS.GetTasksWithoutReminders();
                 if (noReminderTasks.Count == 0)
@@ -190,19 +175,21 @@ namespace demo2
                 return;
             }
 
-            // Chat/activity logs
+            // Show chat log
             if (lowerMsg.Contains("chat log") || lowerMsg.Contains("chat activity"))
             {
                 DisplayChatLog();
                 return;
             }
 
+            // Show activity log
             if (lowerMsg.Contains("activity log") || lowerMsg.Contains("show activity"))
             {
                 DisplayActivityLog();
                 return;
             }
 
+            // Scroll activity or chat
             if (lowerMsg == "show more activity")
             {
                 ShowNextActivities();
@@ -210,18 +197,17 @@ namespace demo2
             }
 
             if (lowerMsg == "show more chat")
-{
-    ShowNextChatMessages();
-    return;
-}
+            {
+                ShowNextChatMessages();
+                return;
+            }
 
-
-            // Main chatbot response
+            // Main bot response
             string botResponse = CyberDictionary.GetResponse(userMessage);
             RespondBot(botResponse);
-            TrackCyberInterest(userMessage.ToLower());
+            TrackCyberInterest(lowerMsg);
 
-            // Handle optional reminder offer
+            // Ask to set reminder after task is added
             if (botResponse.StartsWith("Task added: '") && botResponse.Contains("(no due date set)"))
             {
                 string extracted = ExtractTaskName(botResponse);
@@ -236,20 +222,19 @@ namespace demo2
             UserInput.Text = string.Empty;
         }
 
-
-        // Sends message from bot with styling
+        // Display bot message in chat
         private void RespondBot(string message)
         {
             ChatHistory.Add("Bot", message);
             AddMessageWithIcon(message, Colors.White, "#333", HorizontalAlignment.Left, botImagePath);
         }
 
-        // Tracks interest topic mentions
+        // Track mentions related to interest topic
         private void TrackCyberInterest(string message)
         {
             totalInteractions++;
 
-            if (interestTopic == null || interestTopic == "none" || interestingFactShown)
+            if (string.IsNullOrWhiteSpace(interestTopic) || interestTopic == "none" || interestingFactShown)
                 return;
 
             if (!message.Contains(interestTopic))
@@ -259,7 +244,7 @@ namespace demo2
                 if (nonInterestInteractions >= 3)
                 {
                     ShowInterestingFact(interestTopic);
-                    interestingFactShown = true; // 👈 show only once
+                    interestingFactShown = true;
                     nonInterestInteractions = 0;
                 }
             }
@@ -269,7 +254,7 @@ namespace demo2
             }
         }
 
-        // Extracts task name from bot response
+        // Extract task name from bot message
         private string ExtractTaskName(string message)
         {
             try
@@ -284,7 +269,7 @@ namespace demo2
             }
         }
 
-        // Display previous chat messages
+        // Restore previous chat messages to UI
         private void RestorePreviousChat()
         {
             foreach (var entry in ChatHistory.Messages)
@@ -299,18 +284,18 @@ namespace demo2
             }
         }
 
-        // Display chat log
+        // Display recent chat log
         private void DisplayChatLog()
         {
-            ChatHistory.ResetChatIndex(); // Start from the beginning
+            ChatHistory.ResetChatIndex();
             RespondBot("Here's your recent chat history (up to 5):");
             ShowNextChatMessages();
         }
 
+        // Show more chat log entries
         private void ShowNextChatMessages()
         {
             var nextLogs = ChatHistory.GetNextChatMessages(5);
-
             if (nextLogs.Count == 0)
             {
                 RespondBot("No more chat messages to show.");
@@ -329,18 +314,18 @@ namespace demo2
             }
         }
 
-
-        // Display activity log
+        // Display recent activity log
         private void DisplayActivityLog()
         {
-            ChatHistory.ResetActivityIndex(); // Reset when "activity log" is first typed
+            ChatHistory.ResetActivityIndex();
             RespondBot("Here's your activity log (latest 5):");
             ShowNextActivities();
         }
 
+        // Show next batch of activities
         private void ShowNextActivities()
         {
-            var entries = ChatHistory.GetNextActivities(); // Only call once!
+            var entries = ChatHistory.GetNextActivities();
             if (entries.Count == 0)
             {
                 RespondBot("No more activity to show.");
@@ -358,10 +343,7 @@ namespace demo2
             }
         }
 
-
-
-
-        // Show a fun fact after 3 unrelated messages
+        // Show interesting fact about interest topic
         private void ShowInterestingFact(string topic)
         {
             if (CyberDictionary.TryGet($"{topic}_INTEREST", out string fact))
@@ -374,16 +356,14 @@ namespace demo2
             }
         }
 
-        // Ask user if they have an interest in Cyber Security
+        // Ask if user has a cybersecurity interest
         private void AskCyberInterest()
         {
             RespondBot("Hey! Do you have a Cyber Security topic you're interested in? (yes/no)");
             waitingForInterestTopic = true;
         }
 
-
-
-        // Intro message with ASCII art
+        // Show welcome ASCII banner
         private void ShowWelcomeMessage()
         {
             string asciiArt = @"__  __        __       __            __                                                    __  __ 
@@ -394,7 +374,7 @@ $$ |$$ |      $$ /$$$  $$ |/$$$$$$  |$$ |/$$$$$$$/ /$$$$$$  |$$$$$$ $$$$  |/$$$$
 $$/ $$/       $$ $$/$$ $$ |$$    $$ |$$ |$$ |      $$ |  $$ |$$ | $$ | $$ |$$    $$ |      $$/ $$/ 
  __  __       $$$$/  $$$$ |$$$$$$$$/ $$ |$$ \_____ $$ \__$$ |$$ | $$ | $$ |$$$$$$$$/        __  __ 
 /  |/  |      $$$/    $$$ |$$       |$$ |$$       |$$    $$/ $$ | $$ | $$ |$$       |      /  |/  |
-$$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$$$$/       $$/ $$/ "; 
+$$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$$$$/       $$/ $$/ ";
 
             ChatMessages.Children.Add(new TextBlock
             {
@@ -411,7 +391,7 @@ $$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$
             });
         }
 
-        // Play intro audio file
+        // Play intro audio when page loads
         private void PlayIntroAudio()
         {
             try
@@ -434,7 +414,7 @@ $$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$
             }
         }
 
-        // Add message with image icon
+        // Add message with image in chat
         private void AddMessageWithIcon(string text, Color textColor, string bgColor, HorizontalAlignment alignment, string imagePath)
         {
             var messagePanel = new StackPanel
@@ -471,7 +451,7 @@ $$/ $$/       $$/      $$/  $$$$$$$/ $$/  $$$$$$$/  $$$$$$/  $$/  $$/  $$/  $$$$
             ChatMessages.Children.Add(messagePanel);
         }
 
-        // Dispose audio resources when leaving
+        // Dispose audio resources
         private void Bot_Unloaded(object sender, RoutedEventArgs e)
         {
             outputDevice?.Dispose();
